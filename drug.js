@@ -49,6 +49,11 @@ function updateMagicPill() {
   // Never expires, benefit never changes
 }
 
+function updateDafalgan(drug) {
+  drug.benefit -= isExpired(drug) ? 4 : 2;
+  decreaseExpiry(drug);
+}
+
 export function applyUpdateRule(drug) {
   switch (drug.name) {
     case "Herbal Tea":
@@ -59,6 +64,9 @@ export function applyUpdateRule(drug) {
       break;
     case "Fervex":
       updateFervex(drug);
+      break;
+    case "Dafalgan":
+      updateDafalgan(drug);
       break;
     default:
       updateNormalDrug(drug);

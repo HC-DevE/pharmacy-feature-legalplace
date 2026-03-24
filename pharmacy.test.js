@@ -115,6 +115,34 @@ describe("Pharmacy", () => {
     });
   });
 
+  describe("Dafalgan", () => {
+    it("should degrade benefit twice as fast as normal drugs", () => {
+      const pharmacy = new Pharmacy([new Drug("Dafalgan", 10, 20)]);
+      const [drug] = pharmacy.updateBenefitValue();
+      expect(drug.expiresIn).toBe(9);
+      expect(drug.benefit).toBe(18);
+    });
+
+    it("should degrade benefit 4x after expiration", () => {
+      const pharmacy = new Pharmacy([new Drug("Dafalgan", 0, 20)]);
+      const [drug] = pharmacy.updateBenefitValue();
+      expect(drug.expiresIn).toBe(-1);
+      expect(drug.benefit).toBe(16);
+    });
+
+    it("should never have negative benefit", () => {
+      const pharmacy = new Pharmacy([new Drug("Dafalgan", 5, 1)]);
+      const [drug] = pharmacy.updateBenefitValue();
+      expect(drug.benefit).toBe(0);
+    });
+
+    it("should never have negative benefit after expiration", () => {
+      const pharmacy = new Pharmacy([new Drug("Dafalgan", -1, 3)]);
+      const [drug] = pharmacy.updateBenefitValue();
+      expect(drug.benefit).toBe(0);
+    });
+  });
+
   describe("output.json regression", () => {
     it("should match the expected 30-day simulation", () => {
       const drugs = [
