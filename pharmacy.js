@@ -1,6 +1,12 @@
-import { applyUpdateRule } from "./drug";
+import { getStrategy } from "./strategies";
 
-export { Drug } from "./drug";
+export class Drug {
+  constructor(name, expiresIn, benefit) {
+    this.name = name;
+    this.expiresIn = expiresIn;
+    this.benefit = benefit;
+  }
+}
 
 export class Pharmacy {
   constructor(drugs = []) {
@@ -9,7 +15,8 @@ export class Pharmacy {
 
   updateBenefitValue() {
     for (const drug of this.drugs) {
-      applyUpdateRule(drug);
+      const strategy = getStrategy(drug.name);
+      strategy.update(drug);
     }
     return this.drugs;
   }
