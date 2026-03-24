@@ -21,7 +21,7 @@ export class DrugStrategy {
   }
 
   clampBenefit(drug) {
-    drug.benefit = Math.min(drug.benefit, BENEFIT_MAX);
-    drug.benefit = Math.max(drug.benefit, BENEFIT_MIN);
+    if (drug.benefit > BENEFIT_MAX) drug.benefit = BENEFIT_MAX;
+    if (drug.benefit < BENEFIT_MIN) drug.benefit = BENEFIT_MIN;
   }
 }
